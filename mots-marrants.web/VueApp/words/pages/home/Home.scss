@@ -1,0 +1,188 @@
+@import '../../../common/design/variables.scss';
+
+.search {
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+    display: flex;
+    input{
+        flex-grow: 1;
+        background: black;
+        color: $text-color;
+        border: 1px solid $darker-gold;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 24px;
+        margin: 0px 15px 15px 15px;
+    }
+}
+
+.word-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    .word-item{
+        display: flex;
+        align-items: center;
+        position: relative;
+        margin: 5px;
+        flex-basis: 400px;
+        background: lighten($bg-color, 10%);
+        justify-content: space-between;
+        > div {
+            padding: 8px;
+            &:first-child{
+                flex-grow: 1;
+                text-transform: capitalize;
+            }
+            &.rate {
+                font-size: 15px;
+                margin-left: 10px;
+                color: $gold;
+                font-weight: bold;
+                flex-grow: 0;
+                text-align: right;
+                small{
+                    color: white;
+                    opacity: 0.3;
+                }
+            }
+        }
+        button, a{
+            font-family: 'Montserrat';
+            background: $dark-gold;
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            align-self: normal;
+            justify-content: center;
+            flex-basis: 35px;
+            margin-left: 1px;
+        }
+    }
+}
+.add-word{
+    width: 100%;
+    text-align: center;
+}
+.add-button {
+    transition: all .3s;
+    display: inline-block;
+    background: $darker-gold;
+    font-size: 14px;
+    font-weight: bold;
+    color: $text-color;
+    width: 300px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    box-shadow: 0 0 5px black;
+    margin: 10px;
+    opacity: 0.8;
+    &:hover{
+        opacity: 1;
+        box-shadow: 0 0 3px $gold;
+    }
+}
+
+.params{
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    a {
+        cursor: pointer;
+        color: $gold;
+        border: 1px solid $gold;
+        width: 41px;
+        height: 41px;
+        font-size: 20px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+.a-vote{
+    text-align: center;
+    opacity: 0.5;
+}
+
+.stars {
+    font-size: 28px;
+    text-align: center;
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    $color: $text-color;
+    cursor: pointer;
+
+    > span {
+        display: inline-block;
+        position: relative;
+        width: 1.1em;
+        
+    }
+    > span:hover:before,
+    > span:hover ~ span:before {
+        content: "\2605";
+        color: $gold;
+        position: absolute;
+        color: $gold;
+    }
+    &:not(:hover){
+        > span.active:before,
+        > span.active ~ span:before {
+            content: "\2605";
+            color: $gold;
+            position: absolute;
+            color: $gold;
+        }
+    }
+}
+
+.bg-modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .modal{
+        box-shadow: 0 0 1px $gold;
+        min-width: 300px;
+        background: $bg-color;
+        display: flex;
+        flex-direction: column;
+        .modal-header{
+            flex-grow: 0;
+            padding: 10px 15px;
+            h2{
+                margin: 0;
+                text-align: center;
+            }
+        }
+        .modal-content{
+            flex-grow: 1;
+            text-align: center;
+        }
+        .modal-footer{
+            flex-grow: 0;
+            text-align: center;
+            flex-basis: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            a {
+                padding: 8px 15px;
+                border: 1px solid;
+            }
+        }
+    }
+}
+
+.loading{
+    text-align: center;
+}

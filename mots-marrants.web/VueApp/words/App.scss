@@ -1,0 +1,19 @@
+@import "../common/design/variables.scss";
+nav{
+    background: $gold;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    .title{
+        font-size: 18px;
+        font-family: 'Satisfy', cursive;
+    }
+    ul{
+        margin: 0 0 10px 0;
+        display: flex;
+        li{
+            list-style: none;
+            margin-right: 10px;
+        }
+    }
+}

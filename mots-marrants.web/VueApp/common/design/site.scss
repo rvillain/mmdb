@@ -1,0 +1,26 @@
+@import "variables.scss";
+
+/*-------------------------------
+
+    Global
+
+--------------------------------- */
+
+* {
+	outline: none;
+}
+
+html,
+body {
+	font-family: 'Montserrat', sans-serif;
+	background: $bg-color;
+	color: $text-color;
+	margin: 0; 
+	padding: 0;
+}
+
+a {
+	color: $text-color;
+	text-decoration: none;
+	cursor: pointer;
+}
