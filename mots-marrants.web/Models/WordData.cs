@@ -23,6 +23,7 @@ namespace mots_marrants.web.Models
         public DateTime? ValidationDate { get; set; }
 
         public string WordType { get; set; }
+        public string Tags { get; set; }
 
         [NotMapped]
         public double? Rate {

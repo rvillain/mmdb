@@ -25,6 +25,7 @@
         display: flex;
         align-items: center;
         position: relative;
+        flex-grow: 1;
         margin: 5px;
         flex-basis: 400px;
         background: lighten($bg-color, 10%);
@@ -167,6 +168,21 @@
         .modal-content{
             flex-grow: 1;
             text-align: center;
+            label{
+                margin: 5px 0px;
+                display: block;
+            }
+            select{
+                width: 90%;
+                margin: auto;
+            }
+            .tags{
+                padding: 10px;
+            }
+            .add-tag { 
+                padding: 10px;
+                box-shadow: 0px 0px 2px $gold;
+            }
         }
         .modal-footer{
             flex-grow: 0;
@@ -174,10 +190,13 @@
             flex-basis: 70px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-around;
             a {
                 padding: 8px 15px;
                 border: 1px solid;
+                &.confirm-button{
+                    background: $dark-gold;
+                }
             }
         }
     }

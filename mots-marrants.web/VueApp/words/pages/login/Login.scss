@@ -1,0 +1,13 @@
+@import '../../../common/design/variables.scss';
+
+form{
+    width: 100%;
+    text-align: center;
+    label{
+        display: block;
+        margin-bottom: 5px;
+    }
+    input{
+        border: 1px solid $darker-gold;
+    }
+}

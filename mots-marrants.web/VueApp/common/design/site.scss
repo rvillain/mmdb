@@ -24,3 +24,32 @@ a {
 	text-decoration: none;
 	cursor: pointer;
 }
+
+select, input {
+	padding: 10px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.tag{
+	border-radius: 15px;
+	padding: 5px 10px;
+	margin: 3px;
+	background: black;
+	display: inline-block;
+	box-shadow: 0 0 2px $darker-gold;
+}
+
+button{
+	transition: all .3s;
+	padding: 10px 15px; 
+	box-shadow: 0 0 3px $gold;
+	border: none;
+	background: $darker-gold;
+	color: white;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 17px;
+	cursor: pointer;
+	&:hover{
+		background: $gold;
+	}
+}

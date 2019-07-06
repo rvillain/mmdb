@@ -6,6 +6,7 @@ import { Notification } from "@/common/services/notificationService";
 import { WordData } from '@/words/types/models/wordData';
 import { WordRate } from '@/words/types/models/wordRate';
 import { SearchVM } from '@/words/types/models/searchVM';
+import { StorageService } from '@/words/services/storage.service';
 
 declare var TextToSpeech:any;
 
@@ -19,33 +20,32 @@ export default class Home extends Vue {
 
     
     words: WordData[] = [];
-    currentWord: WordData;
+    currentWord: WordData = { word: ""};
     get filteredWords(): WordData[] {
         return this.words.filter(w=>w.word.toLowerCase().indexOf(this.search.toLowerCase())>-1);
     }
     search: string = "";
     isLoading: boolean = false;
     showModal: boolean = false;
+    isAuthenticated = false;
+
+    //add word
+    showAddModal = false;
+    wordType = "";
+    tag="";
+
 
     created() {
         this.fetchWordData({
             search : "",
             rate : 0,
             wordTypes : []});
+        this.isAuthenticated = StorageService.isAuthenticated();
     }
 
     get isNewWord(): boolean{
         return !this.isLoading && this.words.filter(w=>w.word.toLowerCase() == this.search.toLowerCase()).length == 0 && this.search != null && this.search.length > 0 && this.search.indexOf(" ") == -1;
     }
-
-    // onChange() {
-    //     let searchVm: SearchVM = {
-    //         search : this.search,
-    //         rate : 0,
-    //         wordTypes : []
-    //     }
-    //     this.fetchWordData(searchVm);
-    // }
     
     fetchWordData(searchVm: SearchVM): void {
         this.isLoading = true;
@@ -60,14 +60,34 @@ export default class Home extends Vue {
 
     }
 
-    onAdd(){
-        let newWordData: WordData = {
+    openAddModal(){
+        this.wordType = "";
+        this.currentWord = {
             word: this.search
         }
-        this.search = "";
-        this.$store.dispatch('add', newWordData)
+        this.showAddModal = true;
+    }
+    wordValid(){
+        return this.wordType.length > 0;
+    }
+    addTag(){
+        if((!this.currentWord.tags || this.currentWord.tags.indexOf(this.tag) == -1) && this.tag){
+            if(!this.currentWord.tags || this.currentWord.tags.length == 0){
+                this.currentWord.tags = this.tag;
+            }
+            else{
+                this.currentWord.tags += "," + this.tag;
+            }
+            this.tag="";
+        }
+    }
+    onAdd(){
+        this.showAddModal = false;
+        this.$store.dispatch('add', this.currentWord)
             .then(result => {
                 this.isLoading = false;
+                Notification.success(this, 'Merci pour l\'ajout')
+                this.search = "";
                 this.fetchWordData({
                     search : "",
                     rate : 0,
@@ -129,5 +149,14 @@ export default class Home extends Vue {
     openModal(word: WordData){
         this.currentWord = word;
         this.showModal = true;
+    }
+
+    addToSampler(word: WordData){
+        this.$store.dispatch('addToSampler', word)
+            .then(result => {
+                Notification.success(this, 'Mot ajouté au sampler!');
+            }).catch(error => {
+                this.isLoading = false;
+            })
     }
 }

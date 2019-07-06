@@ -11,4 +11,5 @@ export interface WordData {
 	validationDate?: Date
 	rate?: number;
 	rateCount?: number;
+	tags?: string;
 }

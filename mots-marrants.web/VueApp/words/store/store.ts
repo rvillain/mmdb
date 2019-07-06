@@ -9,8 +9,22 @@ import { WordData } from '@/words/types/models/wordData'
 import axios from 'axios'
 import { SearchVM } from '../types/models/searchVM';
 import { WordRate } from '../types/models/wordRate';
+import { UserVM } from '../types/models/userVM';
+import { StorageService } from '../services/storage.service';
+import { router } from '../router/router';
 
 Vue.use(Vuex)
+
+function authHeaders() {
+    // return authorization header with jwt token
+    let user = StorageService.getUser();
+
+    if (user && user.token) {
+        return {'Authorization': 'Bearer ' + user.token};
+    } else {
+        return { };
+    }
+}
 
 const state: RootState = {
 	word: {} as WordData
@@ -41,7 +55,7 @@ const actions: ActionTree<RootState, RootState> = {
 	search({ commit }, searchVM: SearchVM): Promise<WordData[]> {
 		return new Promise((resolve, reject) => {
 			axios
-				.post('/api/search', searchVM)
+				.post('/api/word/search', searchVM)
 				.then(response => {
 					resolve(response.data)
 				})
@@ -50,7 +64,20 @@ const actions: ActionTree<RootState, RootState> = {
 				})
 		})
 	},
-	add({ commit }, wordData: WordData): Promise<WordData[]> {
+	getForAdmin({ commit }): Promise<WordData[]> {
+		let config = {headers: authHeaders()};
+		return new Promise((resolve, reject) => {
+			axios
+				.get('/api/word/getForAdmin', config)
+				.then(response => {
+					resolve(response.data)
+				})
+				.catch(error => {
+					reject(error)
+				})
+		})
+	},
+	add({ commit }, wordData: WordData): Promise<WordData> {
 		return new Promise((resolve, reject) => {
 			axios
 				.post('/api/word', wordData)
@@ -62,10 +89,10 @@ const actions: ActionTree<RootState, RootState> = {
 				})
 		})
 	},
-	rate({ commit }, wordRate: WordRate): Promise<WordData> {
+	addToSampler({ commit }, wordData: WordData): Promise<WordData> {
 		return new Promise((resolve, reject) => {
 			axios
-				.post('/api/rate', wordRate)
+				.post('/api/word/addToSampler', wordData, {headers: authHeaders()})
 				.then(response => {
 					resolve(response.data)
 				})
@@ -73,6 +100,89 @@ const actions: ActionTree<RootState, RootState> = {
 					reject(error)
 				})
 		})
+	},
+	saveSampler({ commit }, userVM: UserVM): Promise<any> {
+		return new Promise((resolve, reject) => {
+			axios
+				.post('/api/word/saveSampler', userVM, {headers: authHeaders()})
+				.then(response => {
+					resolve(response.data)
+				})
+				.catch(error => {
+					reject(error)
+				})
+		})
+	},
+	getSampler({ commit }): Promise<any> {
+		return new Promise((resolve, reject) => {
+			axios
+				.get('/api/word/getSampler', {headers: authHeaders()})
+				.then(response => {
+					resolve(response.data)
+				})
+				.catch(error => {
+					reject(error)
+				})
+		})
+	},
+	update({commit}, word: WordData): Promise<boolean>{
+		return new Promise((resolve, reject) => {
+			axios.put('/api/word/'+ word.id, word, {headers: authHeaders()})
+			.then(response =>{
+				resolve(response.data)
+			}).catch(error=>{
+				reject(error)
+			})
+		});
+	},
+	delete({commit}, id: number): Promise<boolean>{
+		return new Promise((resolve, reject) => {
+			axios.delete('/api/word/'+ id, {headers: authHeaders()})
+			.then(response =>{
+				resolve(response.data)
+			}).catch(error=>{
+				reject(error)
+			})
+		});
+	},
+	rate({ commit }, wordRate: WordRate): Promise<WordData> {
+		return new Promise((resolve, reject) => {
+			axios
+				.post('/api/word/rate', wordRate)
+				.then(response => {
+					resolve(response.data)
+				})
+				.catch(error => {
+					reject(error)
+				})
+		})
+	},
+	login({ dispatch, commit }, user: UserVM): Promise<UserVM> {
+		return new Promise((resolve, reject) => {
+			axios
+				.post('/api/auth/authenticate', user)
+				.then(response => {
+					resolve(response.data)
+				})
+				.catch(error => {
+					reject(error)
+				})
+		})
+	},
+	register({ dispatch, commit }, user: UserVM): Promise<UserVM> {
+		return new Promise((resolve, reject) => {
+			axios
+				.post('/api/auth/register', user)
+				.then(response => {
+					resolve(response.data)
+				})
+				.catch(error => {
+					reject(error)
+				})
+		})
+	},
+	logout({ commit }) {
+		localStorage.removeItem('user');
 	}
 }
 
@@ -88,5 +198,13 @@ const store: StoreOptions<RootState> = {
 	actions,
 	mutations
 }
+
+axios.interceptors.response.use((response) => {return response}, error => {
+	if(error.response.status === 401){
+		StorageService.logout();
+		router.push('/login');
+		return error;
+	}
+})
 
 export default new Vuex.Store<RootState>(store)

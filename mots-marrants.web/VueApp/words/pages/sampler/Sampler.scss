@@ -1,0 +1,33 @@
+@import '../../../common/design/variables.scss';
+
+.sampler {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    .sampler-item{
+        flex-grow: 1;
+        min-width: 200px;
+        height: 50px;
+        cursor: pointer;
+        border: 1px solid $darker-gold;
+        margin: 5px;
+        display: inline-flex;
+        align-content: center;
+        justify-content: center;
+        background: $dark-gold;
+        transition: all .3s;
+        line-height: 48px;
+        position: relative;
+        font-weight: bold;
+        font-size: 18px;
+        &:hover{
+            background: $darker-gold
+        }
+        a{
+            position: absolute;
+            right: 0;
+            padding: 0px 10px;
+        }
+    }
+}
