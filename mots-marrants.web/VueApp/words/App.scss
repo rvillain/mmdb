@@ -21,3 +21,12 @@ nav{
         }
     }
 }
+
+@media screen and (max-width: $break-small) {
+    nav{
+        ul{
+            margin-left: 0px;
+            padding-left: 10px;
+        }
+    }
+}

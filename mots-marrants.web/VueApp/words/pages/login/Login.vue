@@ -27,6 +27,12 @@
                 <button
                 type="submit">Se connecter</button>
             </p>
+            <p>
+                Vous n'avez pas de compte ?
+            </p>
+            <p>
+                <router-link :to="{ name: 'register' }" class="button">Inscrivez-vous</router-link> 
+            </p>
 
         </form>
         <notifications group="words" />

@@ -19,7 +19,7 @@
             </p>
   
             <p>
-                <input type="submit" value="Submit">
+                <button type="submit">S'inscrire</button>
             </p>
 
         </form>

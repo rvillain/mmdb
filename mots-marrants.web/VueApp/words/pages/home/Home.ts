@@ -18,21 +18,33 @@ declare var TextToSpeech:any;
 })
 export default class Home extends Vue {
 
-    
+    storage = StorageService;
     words: WordData[] = [];
     currentWord: WordData = { word: ""};
+
     get filteredWords(): WordData[] {
-        return this.words.filter(w=>w.word.toLowerCase().indexOf(this.search.toLowerCase())>-1);
+        let activeTags = this.allTags.filter(t=>this.disabledTags.indexOf(t) == -1);
+        return this.words.filter(w=>
+            w.word.toLowerCase().indexOf(this.search.toLowerCase())>-1
+            &&  
+            (this.disabledTags.length == 0 || w.tags && w.tags.split(',').filter(t=>activeTags.indexOf(t) > -1).length > 0)
+            );
     }
+
     search: string = "";
     isLoading: boolean = false;
     showModal: boolean = false;
+    showFilters: boolean = false;
     isAuthenticated = false;
 
     //add word
     showAddModal = false;
     wordType = "";
-    tag="";
+    tags: Array<string> = [];
+    allTags: Array<string> = []
+
+    //filters
+    disabledTags: Array<string> = [];
 
 
     created() {
@@ -52,8 +64,11 @@ export default class Home extends Vue {
 
         this.$store.dispatch('search', searchVm)
             .then(result => {
-                this.isLoading = false;
                 this.words = result;
+                this.shuffle();
+                this.isLoading = false;
+                let arrTags = this.words.map(w=>w.tags?w.tags.split(','): []).flat();
+                this.allTags = Array.from(new Set(arrTags.map((item: any) => item)));
             }).catch(error => {
                 this.isLoading = false;
             })
@@ -62,6 +77,7 @@ export default class Home extends Vue {
 
     openAddModal(){
         this.wordType = "";
+        this.tags = [];
         this.currentWord = {
             word: this.search
         }
@@ -70,19 +86,10 @@ export default class Home extends Vue {
     wordValid(){
         return this.wordType.length > 0;
     }
-    addTag(){
-        if((!this.currentWord.tags || this.currentWord.tags.indexOf(this.tag) == -1) && this.tag){
-            if(!this.currentWord.tags || this.currentWord.tags.length == 0){
-                this.currentWord.tags = this.tag;
-            }
-            else{
-                this.currentWord.tags += "," + this.tag;
-            }
-            this.tag="";
-        }
-    }
     onAdd(){
         this.showAddModal = false;
+        this.currentWord.tags = this.wordType;
+        this.tags.forEach(t=> this.currentWord.tags += ("," + t ));
         this.$store.dispatch('add', this.currentWord)
             .then(result => {
                 this.isLoading = false;
@@ -158,5 +165,34 @@ export default class Home extends Vue {
             }).catch(error => {
                 this.isLoading = false;
             })
+    }
+
+    shuffle(){
+        var copy = JSON.parse(JSON.stringify(this.words));
+        var currentIndex = copy.length, temporaryValue, randomIndex;
+      
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+      
+          // Pick a remaining element...
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex -= 1;
+      
+          // And swap it with the current element.
+          temporaryValue = copy[currentIndex];
+          copy[currentIndex] = copy[randomIndex];
+          copy[randomIndex] = temporaryValue;
+        }
+        this.words = copy;
+    }
+
+    toggleTag(tag: string){
+        let index = this.disabledTags.indexOf(tag);
+        if(index == -1){
+            this.disabledTags.push(tag);
+        }
+        else{
+            this.disabledTags.splice(index, 1);
+        }
     }
 }

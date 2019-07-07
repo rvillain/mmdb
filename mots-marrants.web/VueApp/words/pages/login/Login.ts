@@ -32,6 +32,8 @@ export default class Login extends Vue {
                 localStorage.setItem('user',JSON.stringify(result));
                 router.push('/');
             }).catch(error => {
+                console.log(error);
+                Notification.error(this, "Identifiants incorrects");
                 this.isLoading = false;
             })
 

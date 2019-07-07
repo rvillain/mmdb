@@ -23,6 +23,7 @@ a {
 	color: $text-color;
 	text-decoration: none;
 	cursor: pointer;
+	position: relative;
 }
 
 select, input {
@@ -39,7 +40,7 @@ select, input {
 	box-shadow: 0 0 2px $darker-gold;
 }
 
-button{
+button, a.button{
 	transition: all .3s;
 	padding: 10px 15px; 
 	box-shadow: 0 0 3px $gold;
@@ -52,4 +53,30 @@ button{
 	&:hover{
 		background: $gold;
 	}
+}
+
+.tip{
+	text-align: right;
+	padding: 10px 13px 0 10px;
+	svg{
+		margin-top: -4px;
+		margin-bottom: 4px;
+	}
+}
+
+.no-data{
+	text-align: center;
+	padding: 20px;
+	font-weight: 18px;
+}
+
+.notif{
+	position: absolute;
+	top: -4px;
+	right: -4px;
+	background: $text-color;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	display: inline-block;
 }

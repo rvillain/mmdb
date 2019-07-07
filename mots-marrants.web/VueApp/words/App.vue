@@ -6,19 +6,16 @@
                     <router-link :to="{ name: 'home' }">Mots marrants</router-link>
                 </li>
                 <li v-if="storage.isAuthenticated()">
-                    <router-link :to="{ name: 'sampler' }">Mon sampler</router-link> 
+                    <router-link :to="{ name: 'sampler' }"><font-awesome-icon icon="th-large" /> Sampler</router-link> 
                 </li>
                 <li v-if="storage.isAdmin()">
                     <router-link :to="{ name: 'admin' }">Admin</router-link> 
                 </li>
                 <li v-if="!storage.isAuthenticated()">
-                    <router-link :to="{ name: 'login' }">Login</router-link> 
-                </li>
-                <li v-if="!storage.isAuthenticated()">
-                    <router-link :to="{ name: 'register' }">S'inscrire</router-link> 
+                    <router-link :to="{ name: 'login' }"><font-awesome-icon icon="sign-in-alt" /></router-link> 
                 </li>
                 <li v-if="storage.isAuthenticated()">
-                    <a @click="logout()">Se déconnecter</a> 
+                    <a @click="logout()" title="Se déconnecter"><font-awesome-icon icon="sign-out-alt" /></a> 
                 </li>
             </ul>
         </nav>

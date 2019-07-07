@@ -36,7 +36,9 @@ export default class Sampler extends Vue {
 
     }
 
-    remove(index: number){
+    remove(e: any, index: number){
+        e.preventDefault();
+        e.stopPropagation();
         this.words.splice(index, 1);
         let str = this.words.toString();
         this.$store.dispatch('saveSampler',{
