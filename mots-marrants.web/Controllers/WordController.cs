@@ -51,7 +51,7 @@ namespace mots_marrants.web.Controllers
         [HttpGet("getForAdmin")]
         public async Task<IActionResult> GetForAdmin()
         {
-            var words = _wordContext.WordData.Include(WordData=>WordData.WordRates).Where(w => true);
+            var words = _wordContext.WordData.Include(WordData=>WordData.WordRates).Where(w => true).OrderByDescending(web=>web.CreationDate);
             return Ok(words.ToList());
         }
 

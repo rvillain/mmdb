@@ -16,8 +16,8 @@ namespace mots_marrants.web.BL
 
 public interface IUserService
     {
-        Task<UserViewModel> Authenticate(string username, string password);
-        Task<UserViewModel> Register(string username, string password);
+        Task<object> Authenticate(string username, string password);
+        Task<object> Register(string username, string password);
         List<string> GetSampler(string userId);
         void AddToSampler(string userId, WordData wordData);
         void SaveSampler(string userId, string sampler);
@@ -40,7 +40,7 @@ public interface IUserService
              _signInManager = signInManager;
         }
 
-        public async Task<UserViewModel> Authenticate(string username, string password)
+        public async Task<object> Authenticate(string username, string password)
         {
             //var user = _context.Users.SingleOrDefault(x => x.UserName == username);
             //var result = _signInManager.CheckPasswordSignInAsync(user, password, false);
@@ -117,7 +117,7 @@ public interface IUserService
             _context.SaveChanges();
         }
 
-        public async Task<UserViewModel> Register(string username, string password)
+        public async Task<object> Register(string username, string password)
         {
             ApplicationUser user = new ApplicationUser{
                 UserName = username
@@ -131,7 +131,7 @@ public interface IUserService
                 return vm;
             }
             else{
-                throw new Exception("Erreur lors de la création");
+                return result.Errors;
             }
         }
     }

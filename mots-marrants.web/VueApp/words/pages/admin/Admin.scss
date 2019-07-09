@@ -29,3 +29,9 @@
         }
     }
 }
+
+@media screen and (max-width: $break-small) {
+    .word-line{
+        flex-wrap: wrap;
+    }
+}

@@ -93,7 +93,7 @@ export default class Home extends Vue {
         this.$store.dispatch('add', this.currentWord)
             .then(result => {
                 this.isLoading = false;
-                Notification.success(this, 'Merci pour l\'ajout')
+                Notification.success(this, 'Merci pour l\'ajout. Votre mot sera dispo une fois que l\'équipe de modération aura fait sa besogne')
                 this.search = "";
                 this.fetchWordData({
                     search : "",

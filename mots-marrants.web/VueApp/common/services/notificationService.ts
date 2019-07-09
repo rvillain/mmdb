@@ -24,7 +24,6 @@ export class Notification {
         vueInstance.$notify({
             group: 'global',
             type: 'error',
-            title: 'Something went wrong',
             text: message,
             duration: 5000
         })
@@ -40,7 +39,6 @@ export class Notification {
         vueInstance.$notify({
             group: 'global',
             type: 'warn',
-            title: 'Something went wrong',
             text: message,
             duration: 5000
         })

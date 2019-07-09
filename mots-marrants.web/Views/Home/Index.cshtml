@@ -13,9 +13,29 @@
     <environment names="Development,Production,Staging">
         <script src="~/dist/js/words/bundle.js" asp-append-version="true"></script>
     </environment>
+    
 
+    <script>
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("back-to-top").classList = "visible";
+            } else {
+                document.getElementById("back-to-top").classList = "";
+            }
+        }
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+    </script>
 }
 
 <div id="app">
 
 </div>
+
+
+<a id="back-to-top" onclick="topFunction()">&#9650;</a>

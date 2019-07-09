@@ -29,8 +29,8 @@ namespace mots_marrants.web.Controllers
         {
             var authUser = await _userService.Authenticate(user.Login, user.Password);
 
-            if (authUser == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+            if (!(authUser is UserViewModel))
+                return BadRequest(authUser);
 
             return Ok(authUser);
         }
@@ -41,10 +41,12 @@ namespace mots_marrants.web.Controllers
         {
             var appUser = await _userService.Register(user.Login, user.Password);
 
-            if (user == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
-
-            return await Authenticate(user);
+            if(appUser is UserViewModel){
+                return await Authenticate(user);
+            }
+            else{
+                return BadRequest(appUser);
+            }
         }
 
     }

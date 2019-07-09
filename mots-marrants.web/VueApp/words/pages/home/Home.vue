@@ -3,6 +3,10 @@
         <div class="tip" v-if="!storage.isAuthenticated()">
             Identifiez-vous pour créer votre sampler <font-awesome-icon icon="level-up-alt" />
         </div>
+        <div class="onboarding" v-if="!storage.isAuthenticated()">
+            Certes riquiqui, ce site a pour humble ambition d'élire le mot le plus poilant qui soit.<br><br>
+            Votez et ajoutez des mots s'il en manque.
+        </div>
         <div class="search">
             <input type="text" v-model="search" placeholder="Recherche">
         </div>

@@ -17,13 +17,24 @@ export default class Register extends Vue {
     confirmPassword: string = ""
 
     isLoading = false;
-    errors: Array<string> = []
+    errors: Array<any> = []
+    passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&]).{8,}$/
+    passTip = "Le mot de passe doit contenir 1 majuscule, 1 caractère spécial, 1 chiffre et doit contenir au minimum 6 caractères"
 
 
-
+    getError(code: string){
+        switch(code){
+            case "DuplicateUserName":
+                return "Nom d'utilisateur déjà pris"
+            default: 
+                return ""
+        }
+    }
     created() {
     }
     checkForm(e: any) {
+        this.isLoading = true;
+        this.errors = [];
         if (this.username && this.password && this.password == this.confirmPassword) {
             let userVM: UserVM = {
                 login: this.username,
@@ -35,14 +46,17 @@ export default class Register extends Vue {
                 localStorage.setItem('user', JSON.stringify(result));
                 router.push('/');
                 this.isLoading = false;
-            }).catch(error => {
+                Notification.success(this, "Vous êtes connecté");
+            }).catch(errors => {
+                console.log(errors);
+                this.errors = errors;
+                Notification.error(this,"Erreur lors de la création du compte");
                 this.isLoading = false;
             })
 
             return false;
         }
   
-        this.errors = [];
   
         if (!this.username) {
           this.errors.push('Le login est requis.');
@@ -52,5 +66,7 @@ export default class Register extends Vue {
         }
   
         e.preventDefault();
+        
+        this.isLoading = false;
     }
 }

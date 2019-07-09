@@ -165,7 +165,7 @@ const actions: ActionTree<RootState, RootState> = {
 					resolve(response.data)
 				})
 				.catch(error => {
-					reject(error)
+					reject(error.data)
 				})
 		})
 	},
@@ -177,7 +177,7 @@ const actions: ActionTree<RootState, RootState> = {
 					resolve(response.data)
 				})
 				.catch(error => {
-					reject(error)
+					reject(error.data)
 				})
 		})
 	},
@@ -205,6 +205,7 @@ axios.interceptors.response.use((response) => {return response}, error => {
 		router.push('/login');
 		return error;
 	}
+	return Promise.reject(error.response);
 })
 
 export default new Vuex.Store<RootState>(store)

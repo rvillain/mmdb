@@ -80,3 +80,41 @@ button, a.button{
 	border-radius: 50%;
 	display: inline-block;
 }
+
+
+.loading{
+    text-align: center;
+}
+
+.errors{
+	text-align: center;
+	padding: 20px;
+	background: $red;
+	ul{
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		li{
+			padding-left:0;
+		}
+	}
+}
+
+
+#back-to-top{
+    position: fixed;
+    bottom: -40px;
+    right: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+	background: $red;
+	height: 40px;
+	width: 40px;
+    color: $text-color;
+	box-shadow: 0 0 3px rgba(0,0,0,0.3);
+	transition: all .3s;
+	&.visible{
+		bottom: 15px;
+	}
+}
